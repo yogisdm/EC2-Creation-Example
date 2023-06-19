@@ -25,13 +25,13 @@ data "aws_availability_zones" "yogi-az" {
 data aws_subnets "public-subnets" {
  //vpc_id = data.aws_vpc.yogi-vpc.id
 
-  filter {
-   name   = "vpc-id"
-   values = ["data.aws_vpc.yogi-vpc.id"] 
+  //filter {
+  // name   = "vpc-id"
+  // values = ["data.aws_vpc.yogi-vpc.id"] 
+ // }
+  tags = {
+   Name = "Public-subnet-*"
   }
-  //tags = {
-  // Name = "Public-subnet-*"
-  //}
 }
 
 data "aws_subnet" "vpcsubnet" {

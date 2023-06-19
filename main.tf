@@ -25,16 +25,26 @@ data "aws_availability_zones" "yogi-az" {
 data aws_subnets "public-subnets" {
  //vpc_id = data.aws_vpc.yogi-vpc.id
 
-  //filter {
-  //  name   = "tag:Name"
-  //  values = ["Public-k8s-*"] 
-  //}
-  tags = {
-   Name = "Public-subnet-*"
+  filter {
+   name   = "vpc-id"
+   values = ["data.aws_vpc.yogi-vpc.id"] 
   }
+  //tags = {
+  // Name = "Public-subnet-*"
+  //}
 }
 
+data "aws_subnet" "vpcsubnet" {
+  for_each = { for index, subnetid in data.aws_subnets.public-subnets.ids : index => subnetid }
+  id       = each.value
+}
+ 
 
+output "ids2" {
+  value = [
+    for v in data.aws_subnet.vpcsubnet : v if v.available_ip_address_count > 20
+  ]
+}
 
 
 

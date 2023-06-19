@@ -42,7 +42,7 @@ data "aws_subnet" "vpcsubnet" {
 
 output "ids2" {
   value = [
-    for v in data.aws_subnet.vpcsubnet : v if v.available_ip_address_count > 20
+    for v in data.aws_subnet.vpcsubnet : v.ids
   ]
 }
 
